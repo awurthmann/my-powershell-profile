@@ -46,5 +46,10 @@ function Get-Destination {
 }
 
 $Destination=Get-Destination
-$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')
-Add-Content -Path $Destination -Value $Source -Force
+try{
+	$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')
+	Add-Content -Path $Destination -Value $Source -Force
+}
+catch {
+	throw
+}
