@@ -44,7 +44,6 @@ function Get-Destination {
 }
 
 $Destination=Get-Destination
-$Source=Get-Content "C:\Users\Aaron\Documents\Profile.ps1"#<--Just for testing purposes
-#$Source=(New-Object System.Net.WebClient).DownloadString('https://PATH_TO_PROFILE')
-## iex ((New-Object System.Net.WebClient).DownloadString('https://PATH_TO_THIS_FILE'))
+$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')
+## iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
 Add-Content -Path $Destination -Value $Source -Force
