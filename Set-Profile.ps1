@@ -9,15 +9,18 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Set-Profile.ps1
-# Version: 2021.02.28.101201
+# Version: 2021.02.28.153701
 # Description: <TO BE ADDED>
 # 
-# Instructions: <MORE TO BE ADDED>
-# iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
+# Instructions:
+#	Copy/Paste the line below into PowerShell for default settings (Current User/Local Host)
+#		iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
+#	Or download and run this script in PowerShell 
+#
+# Arguments: -CurrentUserOnly 'True/False' (Default True), -CurrentHostOnly 'True/False' (Default True), -Source (Default Aaron's profile on Github)
+# Output: None
 #
 # Tested with: Microsoft Windows [Version 10.0.19042.804], PowerShell [Version 5.1.19041.610]
-# Arguments: None
-# Output: None
 #
 # Notes: <NEED TO UPDATE INSTRUCTIONS AND ADD ADMIN CHECK AND PROMPT SECTION UNDER CURRENTUSERONLY FALSE>
 #	<NEED TO ADD ABILITY TO SPECIFY AN OTHER SOURCE>
@@ -31,8 +34,7 @@ function Get-Destination {
 		$True {
 			$CurrentUsersProfilePath=(Split-Path $PROFILE.CurrentUserAllHosts)
 			If (!(Test-Path $CurrentUsersProfilePath)) {
-				#New-Item -ItemType Directory -Force -Path $CurrentUsersProfilePath #Native Method to create Dir. Might be too slow
-				$fso = New-Object -ComObject scripting.filesystemobject
+				$fso = New-Object -ComObject Scripting.FileSystemObject
 				$fso.CreateFolder($CurrentUsersProfilePath)
 			}	
 			switch ($CurrentHostOnly) {
@@ -50,8 +52,8 @@ function Get-Destination {
 }
 
 $Destination=Get-Destination
-try{
-	$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')
+try {
+	If (!($Source)) {$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')}
 	Add-Content -Path $Destination -Value $Source -Force
 }
 catch {
