@@ -9,11 +9,12 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.02.26.195101
-# Description: <TO BE ADDED>
+# Version: 2021.02.28.145001
+# Description: My PowerShell profile. You are welcome to use it obviously.
+# 		For the most part this is being uploaded to Github for easy access and version control.
 # 
 # Instructions: Rename/Save file to desired location.
-#	Description					Path
+#	Description			Path
 #	All Users, All Hosts		$PSHOME\Profile.ps1
 #	All Users, Current Host		$PSHOME\Microsoft.PowerShell_profile.ps1
 #	Current User, All Hosts		$Home\[My ]Documents\PowerShell\Profile.ps1
@@ -23,7 +24,7 @@
 # Arguments: None
 # Output: None
 #
-# Notes: 
+# Notes:  
 # --------------------------------------------------------------------------------------------
 
 
