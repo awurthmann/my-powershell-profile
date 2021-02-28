@@ -30,7 +30,11 @@ function Get-Destination {
 	{
 		$True {
 			$CurrentUsersProfilePath=(Split-Path $PROFILE.CurrentUserAllHosts)
-			If (!(Test-Path $CurrentUsersProfilePath)) {New-Item -ItemType Directory -Force -Path $CurrentUsersProfilePath}	
+			If (!(Test-Path $CurrentUsersProfilePath)) {
+				#New-Item -ItemType Directory -Force -Path $CurrentUsersProfilePath #Native Method to create Dir. Might be too slow
+				$fso = New-Object -ComObject scripting.filesystemobject
+				$fso.CreateFolder($CurrentUsersProfilePath)
+			}	
 			switch ($CurrentHostOnly) {
 				$True {return $PROFILE.CurrentUserCurrentHost}
 				$False {return $PROFILE.CurrentUserAllHosts}
