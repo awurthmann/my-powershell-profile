@@ -12,13 +12,14 @@
 # Version: 2021.02.28.101201
 # Description: <TO BE ADDED>
 # 
-# Instructions: <TO BE ADDED>
+# Instructions: <MORE TO BE ADDED>
+# iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
 #
 # Tested with: Microsoft Windows [Version 10.0.19042.804], PowerShell [Version 5.1.19041.610]
 # Arguments: None
 # Output: None
 #
-# Notes: 
+# Notes: <NEED TO UPDATE INSTRUCTIONS AND ADD ADMIN CHECK AND PROMPT SECTION UNDER CURRENTUSERONLY FALSE>
 # --------------------------------------------------------------------------------------------
 
 Param ([bool]$CurrentUserOnly=$True,[bool]$CurrentHostOnly=$True, [string]$Source)
@@ -45,5 +46,4 @@ function Get-Destination {
 
 $Destination=Get-Destination
 $Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')
-## iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
 Add-Content -Path $Destination -Value $Source -Force
