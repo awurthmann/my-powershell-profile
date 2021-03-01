@@ -15,7 +15,7 @@
 # Instructions:
 #	Copy/Paste the line below into PowerShell for default settings (Current User/Local Host)
 #		iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
-#	Or download and run this script in PowerShell 
+#	Or download and run this script in PowerShell with the desired parameters.
 #
 # Arguments: -CurrentUserOnly 'True/False' (Default True), -CurrentHostOnly 'True/False' (Default True), -Source (Default Aaron's profile on Github)
 # Output: None
@@ -54,7 +54,7 @@ function Get-Destination {
 $Destination=Get-Destination
 try {
 	If (!($Source)) {$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')}
-	Add-Content -Path $Destination -Value $Source -Force
+	Set-Content -Path $Destination -Value $Source -Force
 }
 catch {
 	throw
