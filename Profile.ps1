@@ -103,6 +103,14 @@ function cd_func {
 }
 ##End Change Directory Function##
 
+## Check if Admin Function##
+function isAdmin {
+#	Checks if the current user has "Administrator" privileges, returns True or False 
+	$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+	return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+## End Check if Admin Function##
+
 ##Cleanup Functions/Variables/Environment Functions##
 function Cleanup-Environment {
 #	Clears variables and functions to process' (shell's) orginal state when launched.
