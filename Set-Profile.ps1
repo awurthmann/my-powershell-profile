@@ -9,8 +9,8 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Set-Profile.ps1
-# Version: 2021.02.28.153701
-# Description: <TO BE ADDED>
+# Version: 2021.03.01.095301
+# Description: Script used to install or 'set' the Windows PowerShell profile.
 # 
 # Instructions:
 #	Copy/Paste the line below into PowerShell for default settings (Current User/Local Host)
@@ -22,8 +22,7 @@
 #
 # Tested with: Microsoft Windows [Version 10.0.19042.804], PowerShell [Version 5.1.19041.610]
 #
-# Notes: <NEED TO UPDATE INSTRUCTIONS AND ADD ADMIN CHECK AND PROMPT SECTION UNDER CURRENTUSERONLY FALSE>
-#	<NEED TO ADD ABILITY TO SPECIFY AN OTHER SOURCE>
+# Notes: 
 # --------------------------------------------------------------------------------------------
 
 Param ([bool]$CurrentUserOnly=$True,[bool]$CurrentHostOnly=$True, [string]$Source)
