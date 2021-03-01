@@ -54,8 +54,11 @@ function Get-Destination {
 $Destination=Get-Destination
 try {
 	If (!($Source)) {$Source=(New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Profile.ps1')}
-	Set-Content -Path $Destination -Value $Source -Force
+	Set-Content -Path $Destination -Value $Source -Force -ErrorAction Stop
 }
 catch {
+	If ($error[0].Exception.Message -like "Access to the path *$(Split-Path $PROFILE.AllUsersAllHosts)* is denied.") {
+		Write-Host "Changes to 'All Users' profiles requires administrator permissions." -ForegroundColor Yellow -BackgroundColor Black
+	}
 	throw
 }
