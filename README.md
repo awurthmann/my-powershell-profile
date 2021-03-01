@@ -13,13 +13,13 @@ For the most part this is being uploaded to Github for easy access and version c
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
 ```
 ```powershell
-	> . $PROFILE
+	. $PROFILE
 ```
 	or close and reopen PowerShell
 ## Alternative Instructions:
 	  - Download Set-Profile.ps1
 	  - Open PowerShell
 ```powershell
-	  > Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+	  Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
 ```
 	  - Execute Set-Profile.ps1 with desired paramaters.
