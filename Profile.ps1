@@ -88,7 +88,7 @@ function cd_func {
 			Set-Location $Path
 		}
 		Else {
-			Write-Host "cd : Cannot find path '$Path:String' because it does not exist." -BackgroundColor black -BackgroundColor black -ForegroundColor red
+			Write-Host "cd : Cannot find path '$Path:String' because it does not exist." -BackgroundColor black -ForegroundColor red
 			Write-Host "At line:1 char:1"  -BackgroundColor black -ForegroundColor red
 			Write-Host "+ cd $Path"  -BackgroundColor black -ForegroundColor red
 			Write-Host "+"("~" * ($Path.Length + 3)) -BackgroundColor black -ForegroundColor red
