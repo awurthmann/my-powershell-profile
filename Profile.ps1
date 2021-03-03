@@ -84,22 +84,39 @@ function cd_func {
 	}
 	
 	If ($Path) {
-		If (Test-Path $Path) {
+		try {
 			Set-Location $Path
 		}
-		Else {
-			Write-Host "cd : Cannot find path '$Path:String' because it does not exist." -BackgroundColor black -ForegroundColor red
-			Write-Host "At line:1 char:1"  -BackgroundColor black -ForegroundColor red
-			Write-Host "+ cd $Path"  -BackgroundColor black -ForegroundColor red
-			Write-Host "+"("~" * ($Path.Length + 3)) -BackgroundColor black -ForegroundColor red
-			Write-Host "	+ CategoryInfo          : ObjectNotFound: ($Path) [Set-Location], ItemNotFoundException"  -BackgroundColor black -ForegroundColor red
-			Write-Host "	+ FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetLocationCommand"  -BackgroundColor black -ForegroundColor red
-			Write-Host
-			break
+		catch {
+			if ($error[0].Exception.Message -like "Cannot find path*because it does not exist.") {
+				"cd : $($error[0].Exception.Message)" -BackgroundColor black -ForegroundColor red
+				Write-Host "At line:1 char:1"  -BackgroundColor black -ForegroundColor red
+				Write-Host "+ cd $Path"  -BackgroundColor black -ForegroundColor red
+				Write-Host "+"("~" * ($Path.Length + 3)) -BackgroundColor black -ForegroundColor red
+				Write-Host "    + CategoryInfo          :$($error[0].CategoryInfo.ToString())" -BackgroundColor black -ForegroundColor red
+				Write-Host "    + FullyQualifiedErrorId :$($error[0].FullyQualifiedErrorId.ToString())" -BackgroundColor black -ForegroundColor red
+			}
+			else {throw}
 		}
+		finally {
+			Write-Host (get-location).Path -ForegroundColor $fgColor
+		}
+		# If (Test-Path $Path) {
+			# Set-Location $Path
+		# }
+		# Else {
+			# Write-Host "cd : Cannot find path '$Path:String' because it does not exist." -BackgroundColor black -ForegroundColor red
+			# Write-Host "At line:1 char:1"  -BackgroundColor black -ForegroundColor red
+			# Write-Host "+ cd $Path"  -BackgroundColor black -ForegroundColor red
+			# Write-Host "+"("~" * ($Path.Length + 3)) -BackgroundColor black -ForegroundColor red
+			# Write-Host "	+ CategoryInfo          : ObjectNotFound: ($Path) [Set-Location], ItemNotFoundException"  -BackgroundColor black -ForegroundColor red
+			# Write-Host "	+ FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SetLocationCommand"  -BackgroundColor black -ForegroundColor red
+			# Write-Host
+			# break
+		# }
 	}
-	$actualPath=(get-location).Path
-	Write-Host "$actualPath" -ForegroundColor $fgColor
+	#$actualPath=(get-location).Path
+	#Write-Host "$actualPath" -ForegroundColor $fgColor
 }
 ##End Change Directory Function##
 
