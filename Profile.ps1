@@ -89,7 +89,7 @@ function cd_func {
 		}
 		catch {
 			if ($error[0].Exception.Message -like "Cannot find path*because it does not exist.") {
-				"cd : $($error[0].Exception.Message)" -BackgroundColor black -ForegroundColor red
+				Write-Host "cd : $($error[0].Exception.Message)" -BackgroundColor black -ForegroundColor red
 				Write-Host "At line:1 char:1"  -BackgroundColor black -ForegroundColor red
 				Write-Host "+ cd $Path"  -BackgroundColor black -ForegroundColor red
 				Write-Host "+"("~" * ($Path.Length + 3)) -BackgroundColor black -ForegroundColor red
