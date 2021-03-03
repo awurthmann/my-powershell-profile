@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.03.01.095501
+# Version: 2021.03.03.125601
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to Github for easy access and version control.
 # 
