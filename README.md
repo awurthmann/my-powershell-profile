@@ -12,6 +12,13 @@ For the most part this is being uploaded to Github for easy access and version c
 ```powershell
 iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
 ```
+or to change the default arguments
+```powershell
+$installScript=((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
+$ScriptBlock = [System.Management.Automation.ScriptBlock]::Create($installScript)
+$ScriptArgs=@($False,$False,"C:\SomePath\Profile.ps1")
+Invoke-Command $ScriptBlock -ArgumentList $ScriptArgs
+```
 ```powershell
 . $PROFILE
 ```

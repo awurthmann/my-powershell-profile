@@ -15,6 +15,11 @@
 # Instructions:
 #	Copy/Paste the line below into PowerShell for default settings (Current User/Local Host)
 #		iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
+#	or to change the default arguments
+#		$installScript=((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/awurthmann/my-powershell-profile/main/Set-Profile.ps1'))
+#		$ScriptBlock = [System.Management.Automation.ScriptBlock]::Create($installScript)
+#		$ScriptArgs=@($False,$False,"C:\SomePath\Profile.ps1")
+#		Invoke-Command $ScriptBlock -ArgumentList $ScriptArgs
 #	Or download and run this script in PowerShell with the desired parameters.
 #
 # Arguments: -CurrentUserOnly 'True/False' (Default True), -CurrentHostOnly 'True/False' (Default True), -Source (Default Aaron's profile on Github)
