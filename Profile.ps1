@@ -105,13 +105,31 @@ function cd_func {
 }
 ##End Change Directory Function##
 
-## Check if Admin Function##
+##Check if Admin Function##
 function isAdmin {
 #	Checks if the current user has "Administrator" privileges, returns True or False 
 	$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 	return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
-## End Check if Admin Function##
+##End Check if Admin Function##
+
+##The 'which' Function##
+# Use to identify the location of executables
+function which ($cmd) {
+	try{
+		$result=Get-Command $cmd
+		If ($result.CommandType -eq "Alias") {
+			return $result.DisplayName
+		}
+		Else {
+			return $result.Definition
+		} 
+	}
+	catch {
+		throw
+	}
+}
+##End The 'which' Function##
 
 ##Cleanup Functions/Variables/Environment Functions##
 function Cleanup-Environment {
