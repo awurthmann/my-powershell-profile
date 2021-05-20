@@ -9,12 +9,12 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.03.03.125601
+# Version: 2021.05.19.173401
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to Github for easy access and version control.
 # 
 # Instructions: Rename/Save file to desired location.
-#	Description			Path
+#	Description					Path
 #	All Users, All Hosts		$PSHOME\Profile.ps1
 #	All Users, Current Host		$PSHOME\Microsoft.PowerShell_profile.ps1
 #	Current User, All Hosts		$Home\[My ]Documents\PowerShell\Profile.ps1
@@ -186,13 +186,21 @@ If ($Env:OS -like "Windows*") {
 
 ###End Aliases###
 
+###Adding GitHub To Path###
+If (Test-Path "$Home\Documents\GitHub"){
+	((Get-ChildItem -Recurse $Home\Documents\GitHub\ *.ps1).VersionInfo.FileName) | Split-Path | Get-Unique | 
+	 ForEach-Object {$AppendPath+="$_;"}; $env:Path+=";$AppendPath"
+}
+
+###End Adding GitHub To Path###
+
 ###Starting Directory###
 
 #Add/arrange directories by order of preference with $Home at the end
 $Directories = @(
 	"$env:USERPROFILE\Dropbox\bin\scripts\ps",
 	"$env:USERPROFILE\Documents\bin\scripts\ps",
-	"$env:USERPROFILE\Documents\WindowsPowerShell",
+	#"$env:USERPROFILE\Documents\WindowsPowerShell",
 	"$env:USERPROFILE\Documents",
 	"Microsoft.PowerShell.Core\FileSystem::\\Mac\Home\Documents",
 	"$Home"
