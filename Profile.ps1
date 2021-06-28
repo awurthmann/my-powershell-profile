@@ -9,9 +9,9 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.05.19.173401
+# Version: 2021.06.28.073101
 # Description: My PowerShell profile. You are welcome to use it obviously.
-# 		For the most part this is being uploaded to Github for easy access and version control.
+# 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
 # Instructions: Rename/Save file to desired location.
 #	Description					Path
@@ -131,23 +131,40 @@ function which ($cmd) {
 }
 ##End The 'which' Function##
 
+##Tail Function
+function tail {
+	Param (
+		[parameter(Position=0,Mandatory,HelpMessage="Enter file path",ValueFromPipeline,ValueFromPipelineByPropertyName)]
+		[Alias("File")]
+		[string]$FilePath
+	)
+	try{
+		Get-Content -Path $FilePath -Wait
+	}
+	catch {
+		throw
+	}
+}
+##End Tail Function
+
+
 ##Cleanup Functions/Variables/Environment Functions##
 function Cleanup-Environment {
-#	Clears variables and functions to process' (shell's) orginal state when launched.
+#	Clears variables and functions to process' (shell's) original state when launched.
 	Cleanup-Variables
 	Cleanup-Functions
 	#[System.GC]::Collect() #Current version of PowerShell does garbage collection
 }
 
 function Cleanup-Functions {
-#	Clears functions to process' (shell's) orginal state when launched.
+#	Clears functions to process' (shell's) original state when launched.
   Get-ChildItem -Path Function: |
     Where-Object { $startupFunctions -notcontains $_.Name } | 
 	 % { Remove-Item -Path Function:"$($_.Name)" }
 }
 
 function Cleanup-Variables {
-#	Clears variables to process' (shell's) orginal state when launched.
+#	Clears variables to process' (shell's) original state when launched.
   Get-Variable |
     Where-Object { $startupVariables -notcontains $_.Name } |
      % { Remove-Variable -Name "$($_.Name)" -Force -Scope "global" }
