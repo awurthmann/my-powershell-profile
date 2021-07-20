@@ -1,4 +1,4 @@
-#powershell.exe
+#powershell
 
 
 # Written by: Aaron Wurthmann
@@ -9,18 +9,24 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.06.28.073101
+# Version: 2021.07.19.200401
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
 # Instructions: Rename/Save file to desired location.
-#	Description					Path
-#	All Users, All Hosts		$PSHOME\Profile.ps1
-#	All Users, Current Host		$PSHOME\Microsoft.PowerShell_profile.ps1
-#	Current User, All Hosts		$Home\[My ]Documents\PowerShell\Profile.ps1
-#	Current user, Current Host	$Home\[My ]Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+#	Description							Path
+#	Windows: All Users, All Hosts		$PSHOME\Profile.ps1
+#	Windows: All Users, Current Host	$PSHOME\Microsoft.PowerShell_profile.ps1
+#	Windows: Current User, All Hosts	$Home\[My ]Documents\PowerShell\Profile.ps1
+#	Windows: Current user, Current Host	$Home\[My ]Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+#	MacOs: Current user, Current Host	$Home/.config/powershell/Microsoft.PowerShell_profile.ps1
+#	MacOs: Current user, VSCode			$Home/.config/powershell/Microsoft.VSCode_profile.ps1
 #
 # Tested with: Microsoft Windows [Version 10.0.19042.804], PowerShell [Version 5.1.19041.610]
+# Tested with: macOS [Version 10.15.7], PowerShell [Version 7.1.3]
+#	"Microsoft Windows [Version $([System.Environment]::OSVersion.Version)], PowerShell [$($PSVersionTable.PSVersion.ToString())]"
+#	"macOS [Version $([System.Environment]::OSVersion.Version)], PowerShell [$($PSVersionTable.PSVersion.ToString())]"
+# 
 # Arguments: None
 # Output: None
 #
@@ -28,39 +34,70 @@
 # --------------------------------------------------------------------------------------------
 
 
-
-
-
 ###Functions###
+
+##Windows Check Function##
+function isWindows {
+	return $Env:OS -like "Windows*"
+}
+##End Windows Check Function##
 
 ##Prompt Function##
 function prompt {
 #	Displays shortened path at prompt current drive letter, immediate sub directory and current directory.
-#   Example: C:\..\drivers\etc>_
-	
-	$actualPath=(get-location).Path
-	if ($actualPath -like "Microsoft.PowerShell.Core\FileSystem::\\*") {
-		$remotePath=$true
-		$cwd = ($actualPath -split "\\\\", 0)[1]
-	}
-	Else {
-		$cwd = $actualPath
-	}
-	
-    [array]$cwdt=$()
-    $cwdi=-1
-    do {
-		$cwdi=$cwd.indexofany("\\",$cwdi+1)
-		[array]$cwdt+=$cwdi
-	}
-	until($cwdi -eq -1)
+#   Windows Example: C:\..\drivers\etc>_
+#	macOS Example: PS /Users/../Documents/folder>_	
+	If (isWindows) {
+		$actualPath=(get-location).Path
+		if ($actualPath -like "Microsoft.PowerShell.Core\FileSystem::\\*") {
+			$remotePath=$true
+			$cwd = ($actualPath -split "\\\\", 0)[1]
+		}
+		Else {
+			$cwd = $actualPath
+		}
+		
+		[array]$cwdt=$()
+		$cwdi=-1
+		do {
+			$cwdi=$cwd.indexofany("\\",$cwdi+1)
+			[array]$cwdt+=$cwdi
+		}
+		until($cwdi -eq -1)
 
-	if ($cwdt.count -gt 3) {
-		$cwd = $cwd.substring(0,$cwdt[0]) + "\.." + $cwd.substring($cwdt[$cwdt.count-3])
-    }
-	If ($remotePath) {$cwd="\\"+$cwd}
-	$host.UI.RawUI.WindowTitle = "$startupTitle"+":"+" $actualPath"
-	return "$cwd>_"
+		if ($cwdt.count -gt 3) {
+			$cwd = $cwd.substring(0,$cwdt[0]) + "\.." + $cwd.substring($cwdt[$cwdt.count-3])
+		}
+		If ($remotePath) {$cwd="\\"+$cwd}
+		$host.UI.RawUI.WindowTitle = "$startupTitle"+":"+" $actualPath"
+		return "$cwd>_"
+	}
+	ELse {
+		$actualPath=(get-location).Path
+		if ($actualPath -like "Microsoft.PowerShell.Core\FileSystem::\\*") {
+			$remotePath=$true
+			$cwd = ($actualPath -split "\\\\", 0)[1]
+		}
+		Else {
+			$cwd = $actualPath
+		}
+
+		[array]$cwdt=$()
+		$cwdi=-1
+		do {
+			$cwdi=$cwd.indexofany("\/",$cwdi+1)
+			[array]$cwdt+=$cwdi
+		}
+		until($cwdi -eq -1)
+
+		if ($cwdt.count -gt 4) {
+			$cwd = $cwd.substring(0,$cwdt[1]) + "/.." + $cwd.substring($cwdt[$cwdt.count-2])
+		}
+
+		$host.UI.RawUI.WindowTitle = "$startupTitle"+":"+" $actualPath"
+		return "PS $cwd>_"
+	}
+
 }
 ##End Prompt Function##
 
@@ -108,15 +145,25 @@ function cd_func {
 ##Check if Admin Function##
 function isAdmin {
 #	Checks if the current user has "Administrator" privileges, returns True or False 
-	$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-	return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+	If(isWindows) {
+		$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+		return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+	}
+	Else {
+		If (groups $(users) -contains "admin") {
+			return $True
+		}
+		Else {
+			return $False
+		}
+	}
 }
 ##End Check if Admin Function##
 
 ##The 'which' Function##
 # Use to identify the location of executables
 function which ($cmd) {
-	try{
+	try {
 		$result=Get-Command $cmd
 		If ($result.CommandType -eq "Alias") {
 			return $result.DisplayName
@@ -138,7 +185,7 @@ function tail {
 		[Alias("File")]
 		[string]$FilePath
 	)
-	try{
+	try {
 		Get-Content -Path $FilePath -Wait
 	}
 	catch {
@@ -188,7 +235,7 @@ Remove-Item alias:\cd
 Set-Alias cd cd_func
 
 ##Windows Specific Aliases##
-If ($Env:OS -like "Windows*") {
+If (isWindows) {
 	Set-Alias ifconfig ipconfig.exe
 	
 	##Notepad++##
@@ -200,35 +247,48 @@ If ($Env:OS -like "Windows*") {
 	##End Notepad++##
 }
 ##End Windows Specific Aliases##
+##macOS Specific Aliases##
+Else {
+	##Visual Studio Code##
+	$vscode='/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
+	if (Test-Path $vscode){
+		Set-Alias code $vscode
+		Set-Alias vs $vscode
+	}
+	##Visual Studio Code##
+}
+##End macOS Specific Aliases##
 
 ###End Aliases###
 
 ###Adding GitHub To Path###
-If (Test-Path "$Home\Documents\GitHub"){
-	((Get-ChildItem -Recurse $Home\Documents\GitHub\ *.ps1).VersionInfo.FileName) | Split-Path | Get-Unique | 
-	 ForEach-Object {$AppendPath+="$_;"}; $env:Path+=";$AppendPath"
+If (isWindows) {
+	If (Test-Path "$Home\Documents\GitHub") {
+		((Get-ChildItem -Recurse $Home\Documents\GitHub\ *.ps1).VersionInfo.FileName) | Split-Path | Get-Unique | 
+		 ForEach-Object {$AppendPath+="$_;"}; $env:Path+=";$AppendPath"
+	}
 }
-
 ###End Adding GitHub To Path###
 
 ###Starting Directory###
-
 #Add/arrange directories by order of preference with $Home at the end
-$Directories = @(
-	"$env:USERPROFILE\Dropbox\bin\scripts\ps",
-	"$env:USERPROFILE\Documents\bin\scripts\ps",
-	#"$env:USERPROFILE\Documents\WindowsPowerShell",
-	"$env:USERPROFILE\Documents",
-	"Microsoft.PowerShell.Core\FileSystem::\\Mac\Home\Documents",
-	"$Home"
-)
-ForEach ($Directory in $Directories) {
-	If (Test-Path $Directory) {
-		Set-Location $Directory
-		break
+If(isWindows) {
+	$Directories = @(
+		"$env:USERPROFILE\Dropbox\bin\scripts\ps",
+		"$env:USERPROFILE\Documents\bin\scripts\ps",
+		#"$env:USERPROFILE\Documents\WindowsPowerShell",
+		"$env:USERPROFILE\Documents",
+		"Microsoft.PowerShell.Core\FileSystem::\\Mac\Home\Documents",
+		"$Home"
+	)
+	ForEach ($Directory in $Directories) {
+		If (Test-Path $Directory) {
+			Set-Location $Directory
+			break
+		}
 	}
+	Clear-Variable Directories
 }
-
 ###End Starting Directory###
 
 
