@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.07.20.180301
+# Version: 2021.07.20.182501
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
@@ -165,7 +165,9 @@ If (isWindows) {
 		Else {
 			$cwd = $actualPath
 		}
-		$LineLength=$("┌──($env:username)@$(hostname)-[$cwd]").Length
+		$LineDownandRight=[char]0x250C + [char]0x2500 + [char]0x2500
+		$LineUpandRight=[char]0x2514
+		$LineLength=$("$LineDownandRight($env:username)@$(hostname)-[$cwd]").Length
 		$WindowWidth=(get-host).UI.RawUI.WindowSize.Width
 		$BackgroundColor=(get-host).ui.rawui.BackgroundColor
 		If ($LineLength -ge $WindowWidth) {
@@ -185,19 +187,19 @@ If (isWindows) {
 		
 		If (isAdmin) {
 			If ($BackgroundColor -eq "Black"){
-				$result="$(Write-Color -Text "┌──(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Red,Blue,Red,White,Red -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Red,Blue,Red,White,Red -LinesAfter 0)"
 			}
 			Else {
-				$result="$(Write-Color -Text "┌──(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Red,Yellow,Red,White,Red -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Red,Yellow,Red,White,Red -LinesAfter 0)"
 			}
 			
 		}
 		Else {
 			If ($BackgroundColor -eq "Black"){
-				$result="$(Write-Color -Text "┌──(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Green,Blue,Green,White,Green -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Blue,Green,White,Green -LinesAfter 0)"
 			}
 			Else {
-				$result="$(Write-Color -Text "┌──(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Green,Yellow,Green,White,Green -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$(($env:username).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Yellow,Green,White,Green -LinesAfter 0)"
 			}
 			
 		}
@@ -274,7 +276,9 @@ If (isMacOS) {
 		Else {
 			$cwd = $actualPath
 		}
-		$LineLength=$("┌──($env:username)@$(hostname)-[$cwd]").Length
+		$LineDownandRight=[char]0x250C + [char]0x2500 + [char]0x2500
+		$LineUpandRight=[char]0x2514
+		$LineLength=$("$LineDownandRight($env:username)@$(hostname)-[$cwd]").Length
 		$WindowWidth=(get-host).UI.RawUI.WindowSize.Width
 		$BackgroundColor=(get-host).ui.rawui.BackgroundColor
 		If ($LineLength -ge $WindowWidth) {
@@ -294,19 +298,19 @@ If (isMacOS) {
 		
 		If (isAdmin) {
 			If ($BackgroundColor -eq -1){
-				$result="$(Write-Color -Text "┌──(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Red,Blue,Red,White,Red -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Red,Blue,Red,White,Red -LinesAfter 0)"
 			}
 			Else {
-				$result="$(Write-Color -Text "┌──(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Red,Yellow,Red,White,Red -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Red,Yellow,Red,White,Red -LinesAfter 0)"
 			}
 			
 		}
 		Else {
 			If ($BackgroundColor -eq -1){
-				$result="$(Write-Color -Text "┌──(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Green,Blue,Green,White,Green -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Blue,Green,White,Green -LinesAfter 0)"
 			}
 			Else {
-				$result="$(Write-Color -Text "┌──(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n└" -Color Green,Yellow,Green,White,Green -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Yellow,Green,White,Green -LinesAfter 0)"
 			}
 			
 		}
