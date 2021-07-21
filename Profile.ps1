@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.07.21.080801
+# Version: 2021.07.21.094401
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
@@ -157,7 +157,6 @@ If (isWindows) {
 		#	└ >_
 		#
 		$actualPath=(get-location).Path
-		$startupTitle=(get-host).UI.RawUI.WindowTitle 
 		if ($actualPath -like "Microsoft.PowerShell.Core\FileSystem::\\*") {
 			$remotePath=$true
 			$cwd = ($actualPath -split "\\\\", 0)[1]
@@ -269,7 +268,6 @@ If (isMacOS) {
 		#	└ PS >_
 		#
 		$actualPath=(get-location).Path
-		$startupTitle=(get-host).UI.RawUI.WindowTitle 
 		if ($actualPath -like "Microsoft.PowerShell.Core\FileSystem::\\*") {
 			$remotePath=$true
 			$cwd = ($actualPath -split "\\\\", 0)[1]
@@ -446,6 +444,8 @@ new-variable -force -name startupFunctions -value ( Get-ChildItem -Path Function
 
 $startupVariables=""
 new-variable -force -name startupVariables -value ( Get-Variable | % { $_.Name } )
+
+$startupTitle=(get-host).UI.RawUI.WindowTitle -replace "Windows","" -replace "PowerShell","PSH" -replace "Administrator","Admin"
 ##End All Operating Systems Static Variables##
 
 ##All Operating Systems Aliases###
@@ -453,6 +453,3 @@ Remove-Item alias:\cd
 Set-Alias cd cd_func
 ##End All Operating Systems Aliases##
 ###End All Operating Systems Settings###
-
-
-
