@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.07.20.182501
+# Version: 2021.07.21.080801
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
@@ -246,7 +246,8 @@ If (isWindows) {
 			break
 		}
 	}
-	Clear-Variable Directories
+	If ($Directory) {Remove-Variable Directory}
+	If ($Directories) {Remove-Variable Directories}
 	##End Windows Starting Directory###
 	
 
@@ -324,10 +325,11 @@ If (isMacOS) {
 	
 	##MacOS Aliases##
 	#Visual Studio Code##
-	$vscode='/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
-	if (Test-Path $vscode) {
-		Set-Alias code $vscode
-		Set-Alias vs $vscode
+	$vscodePath='/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
+	if (Test-Path $vscodePath) {
+		Set-Alias code $vscodePath
+		Set-Alias vs $vscodePath
+		Set-Alias vscode $vscodePath
 	}
 	#End Visual Studio Code##
 	##End MacOS Aliases##
