@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.07.21.181501
+# Version: 2021.07.21.182701
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
@@ -339,6 +339,22 @@ If (isMacOS) {
 		#
 	}
 	##End MacOS Path Settings##
+
+	##MacOS Starting Directory###
+	$Directories = @(
+		#"$Home/OneDrive*",
+		"$Home/Documents",
+		"$Home"
+	)
+	ForEach ($Directory in $Directories) {
+		If (Test-Path $Directory) {
+			Set-Location $Directory
+			break
+		}
+	}
+	If ($Directory) {Remove-Variable Directory}
+	If ($Directories) {Remove-Variable Directories}
+	##End MacOS Starting Directory###
 }
 ##End macOS Specific Settings##
 ###End Operating System Specific Settings###
