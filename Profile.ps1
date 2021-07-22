@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------------------------
 # Name: Profile.ps1
-# Version: 2021.07.21.094401
+# Version: 2021.07.21.181501
 # Description: My PowerShell profile. You are welcome to use it obviously.
 # 		For the most part this is being uploaded to GitHub for easy access and version control.
 # 
@@ -297,16 +297,16 @@ If (isMacOS) {
 		
 		If (isAdmin) {
 			If ($BackgroundColor -eq -1){
-				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Red,Blue,Red,White,Red -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Magenta,Yellow,Magenta,White,Magenta -LinesAfter 0)"
 			}
 			Else {
-				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Red,Yellow,Red,White,Red -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Magenta,Yellow,Magenta,White,Magenta -LinesAfter 0)"
 			}
 			
 		}
 		Else {
 			If ($BackgroundColor -eq -1){
-				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Blue,Green,White,Green -LinesAfter 0)"
+				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Yellow,Green,White,Green -LinesAfter 0)"
 			}
 			Else {
 				$result="$(Write-Color -Text "$LineDownandRight(", "$((whoami).ToLower())@$(hostname)", ")-[", "$cwd","]`n$LineUpandRight" -Color Green,Yellow,Green,White,Green -LinesAfter 0)"
@@ -331,6 +331,14 @@ If (isMacOS) {
 	}
 	#End Visual Studio Code##
 	##End MacOS Aliases##
+
+	##MacOS Path Settings##
+	If (Test-Path "$Home/Documents/GitHub") {
+		((Get-ChildItem -Recurse $Home/Documents/GitHub/ *.ps1).VersionInfo.FileName) | Split-Path | Get-Unique | 
+			ForEach-Object {$AppendPath+="$_;"}; $env:PATH+=";$AppendPath"
+		#
+	}
+	##End MacOS Path Settings##
 }
 ##End macOS Specific Settings##
 ###End Operating System Specific Settings###
