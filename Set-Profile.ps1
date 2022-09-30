@@ -26,6 +26,9 @@
 # Output: None
 #
 # Tested with: Microsoft Windows [Version 10.0.19042.804], PowerShell [Version 5.1.19041.610]
+# Tested with: macOS [Version 12.6.0], PowerShell [7.2.6]
+#	"Microsoft Windows [Version $([System.Environment]::OSVersion.Version)], PowerShell [$($PSVersionTable.PSVersion.ToString())]"
+#	"macOS [Version $([System.Environment]::OSVersion.Version)], PowerShell [$($PSVersionTable.PSVersion.ToString())]"
 #
 # Notes: 
 # --------------------------------------------------------------------------------------------
@@ -38,8 +41,9 @@ function Get-Destination {
 		$True {
 			$CurrentUsersProfilePath=(Split-Path $PROFILE.CurrentUserAllHosts)
 			If (!(Test-Path $CurrentUsersProfilePath)) {
-				$fso = New-Object -ComObject Scripting.FileSystemObject
-				$fso.CreateFolder($CurrentUsersProfilePath)
+				#$fso = New-Object -ComObject Scripting.FileSystemObject
+				#$fso.CreateFolder($CurrentUsersProfilePath)
+				New-item $CurrentUsersProfilePath -ItemType Directory -force
 			}	
 			switch ($CurrentHostOnly) {
 				$True {return $PROFILE.CurrentUserCurrentHost}
